@@ -1,9 +1,10 @@
-require 'omniauth/strategies/oauth2'
+require 'omniauth-oauth2'
+require 'multi_json'
+
 
 module OmniAuth
   module Strategies
     class Wordpress < OmniAuth::Strategies::OAuth2
-      option :name, "wordpress"
 
       option :client_options, {
         :site => 'https://public-api.wordpress.com',
@@ -11,7 +12,7 @@ module OmniAuth
         :token_url => '/oauth2/access_token'
       }
 
-      uid{ raw_info['id'] }
+      uid { raw_info['id'] }
 
       info do
         {
@@ -28,7 +29,9 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= MultiJson.decode(access_token.get("/me").body)
+        @raw_info ||= access_token.get("https://public-api.wordpress.com/me").parsed
+      rescue ::Errno::ETIMEDOUT
+        raise ::Timeout::Error
       end
 
     end
