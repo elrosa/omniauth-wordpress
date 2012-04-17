@@ -1,5 +1,6 @@
 *.gem
 .bundle
 .rspec
+.idea
 /Gemfile.lock
 tmp
