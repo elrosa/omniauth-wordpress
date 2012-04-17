@@ -27,23 +27,12 @@ describe OmniAuth::Strategies::Wordpress do
     end
 
     it 'has correct authorize url' do
-      subject.client.options[:authorize_url].should eq('/oauth2/authorize')
+      subject.client.options[:authorize_url].should eq('https://public-api.wordpress.com/oauth2/authorize')
     end
 
     it 'has correct token url' do
-      subject.client.options[:token_url].should eq('/oauth2/access_token')
+      subject.client.options[:token_url].should eq('https://public-api.wordpress.com/oauth2/token')
     end
   end
-
-  describe '#uid' do
-    before :each do
-      subject.stub(:raw_info) { { 'id' => '123' } }
-    end
-
-    it 'returns the id from raw_info' do
-      subject.uid.should eq('123')
-    end
-  end
-
 
 end
