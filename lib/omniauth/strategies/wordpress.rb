@@ -28,6 +28,16 @@ class OmniAuth::Strategies::Wordpress < OmniAuth::Strategies::OAuth2
     {'raw_info' => raw_info}
   end
 
+
+  def token_params
+    super.tap do |params|
+      params[:grant_type] = 'authorization_code'
+      params[:client_id] = client.id
+      params[:client_secret] = client.secret
+      params[:redirect_uri] = callback_url
+    end
+  end
+
   def raw_info
     access_token.get('/me').parsed
   end
