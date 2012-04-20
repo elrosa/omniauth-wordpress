@@ -9,6 +9,10 @@ class OmniAuth::Strategies::Wordpress < OmniAuth::Strategies::OAuth2
       :token_url => 'https://public-api.wordpress.com/oauth2/token'
   }
 
+  option :authorize_params, {
+      :redirect_uri => callback_url
+  }
+
   uid { access_token.params['blog_id'] }
 
   info do
@@ -32,6 +36,14 @@ class OmniAuth::Strategies::Wordpress < OmniAuth::Strategies::OAuth2
   def token_params
     super.tap do |params|
       params[:grant_type] = 'authorization_code'
+      params[:client_id] = client.id
+      params[:client_secret] = client.secret
+      params[:redirect_uri] = callback_url
+    end
+  end
+
+  def authorize_params
+    super.tap do |params|
       params[:client_id] = client.id
       params[:client_secret] = client.secret
       params[:redirect_uri] = callback_url
