@@ -9,8 +9,8 @@ class OmniAuth::Strategies::Wordpress < OmniAuth::Strategies::OAuth2
       :token_url => 'https://public-api.wordpress.com/oauth2/token'
   }
 
-  option :authorize_params, {
-      :redirect_uri => callback_url
+  option :token_params, {
+      :parse => :json
   }
 
   uid { access_token.params['blog_id'] }
@@ -29,31 +29,14 @@ class OmniAuth::Strategies::Wordpress < OmniAuth::Strategies::OAuth2
   end
 
   extra do
-    {'raw_info' => raw_info}
-  end
-
-
-  def token_params
-    super.tap do |params|
-      params[:grant_type] = 'authorization_code'
-      params[:client_id] = client.id
-      params[:client_secret] = client.secret
-      params[:redirect_uri] = callback_url
-    end
-  end
-
-  def authorize_params
-    super.tap do |params|
-      params[:client_id] = client.id
-      params[:client_secret] = client.secret
-      params[:redirect_uri] = callback_url
-    end
+    {'raw_info' => raw_info.merge(access_token.params)}
   end
 
   def raw_info
-    access_token.get('/me').parsed
-  end
-
+    @raw_info ||= MultiJson.decode(access_token.get('/rest/v1/me').body)
+   rescue ::Errno::ETIMEDOUT
+     raise ::Timeout::Error
+   end
 end
 
 
