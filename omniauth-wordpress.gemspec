@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Omniauth::Wordpress::VERSION
   s.authors     = ["Magda Sikorska"]
   s.email       = ["madzia.sikorska@gmail.com"]
-  s.homepage    = "https://github.com/elrosa/wordpress"
+  s.homepage    = "https://github.com/elrosa/omniauth-wordpress"
   s.summary     = 'Wordpress strategy for OmniAuth.'
   s.description = 'Wordpress strategy for OmniAuth.'
 
