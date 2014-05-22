@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/elrosa/omniauth-wordpress"
   s.summary     = 'Wordpress strategy for OmniAuth.'
   s.description = 'Wordpress strategy for OmniAuth.'
+  s.license     = 'MIT'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
