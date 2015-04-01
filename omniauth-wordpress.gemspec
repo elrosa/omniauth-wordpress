@@ -5,7 +5,7 @@ require "omniauth/wordpress/version"
 Gem::Specification.new do |s|
   s.name        = "omniauth-wordpress"
   s.version     = Omniauth::Wordpress::VERSION
-  s.authors     = ["Magda Sikorska"]
+  s.authors     = ["Magda Zawadzka"]
   s.email       = ["madzia.sikorska@gmail.com"]
   s.homepage    = "https://github.com/elrosa/omniauth-wordpress"
   s.summary     = 'Wordpress strategy for OmniAuth.'
@@ -17,9 +17,9 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency 'omniauth-oauth2', '~> 1.1.0'
+  s.add_runtime_dependency 'omniauth-oauth2', '>= 1.1.0'
 
-  s.add_development_dependency 'rspec', '~> 2.7.0'
+  s.add_development_dependency 'rspec', '>= 2.7.0'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'webmock'
   s.add_development_dependency 'rack-test'
