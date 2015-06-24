@@ -34,7 +34,7 @@ class OmniAuth::Strategies::Wordpress < OmniAuth::Strategies::OAuth2
   end
 
   def raw_info
-    response = access_token.get(client.options['user_url'])
+    response = access_token.get(client.options[:user_url])
     @raw_info ||= MultiJson.decode(response.body)
   rescue MultiJson::ParseError
     error = ::OAuth2::Error.new(response)
