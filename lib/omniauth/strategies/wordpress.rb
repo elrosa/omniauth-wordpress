@@ -6,7 +6,8 @@ class OmniAuth::Strategies::Wordpress < OmniAuth::Strategies::OAuth2
   option :client_options, {
       :site => "https://public-api.wordpress.com",
       :authorize_url => 'https://public-api.wordpress.com/oauth2/authorize',
-      :token_url => 'https://public-api.wordpress.com/oauth2/token'
+      :token_url => 'https://public-api.wordpress.com/oauth2/token',
+      :user_url => '/oauth/me'
   }
 
   option :token_params, {
@@ -33,10 +34,12 @@ class OmniAuth::Strategies::Wordpress < OmniAuth::Strategies::OAuth2
   end
 
   def raw_info
-    @raw_info ||= MultiJson.decode(access_token.get('/rest/v1/me').body)
-   rescue ::Errno::ETIMEDOUT
-     raise ::Timeout::Error
-   end
+    response = access_token.get(client.options[:user_url])
+    @raw_info ||= MultiJson.decode(response.body)
+  rescue MultiJson::ParseError
+    error = ::OAuth2::Error.new(response)
+    fail(error, "Could not parse response from user url")
+  rescue ::Errno::ETIMEDOUT
+    raise ::Timeout::Error
+  end
 end
-
-
